@@ -25,13 +25,13 @@ public class MyController {
         return new ResponseEntity<>(superheroesList, HttpStatus.OK);
     }
 
-/*
-    @GetMapping(path = "superhero/{name}")      //localhost:8080/kea/superhero/{name}
+    @GetMapping(path = "superhero/{name}")      //localhost:8082/kea/superhero/{name}
     public ResponseEntity<Superhero> searchSuperhero(@PathVariable String name) {
         Superhero searchSuperhero = myService.searchSuperhero(name);
         return new ResponseEntity<>(searchSuperhero, HttpStatus.OK);
     }
 
+/*
     @PostMapping(path = "hero/create")      //localhost:8080/kea/hero/create
     public ResponseEntity<Superhero> createSuperhero(@RequestBody Superhero superhero) {
         Superhero createSuperhero = myService.createSuperhero(superhero.getName(), superhero.getSuperpower(), superhero.getIntroYear());

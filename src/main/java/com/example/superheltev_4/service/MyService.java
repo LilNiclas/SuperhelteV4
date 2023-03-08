@@ -19,12 +19,13 @@ public class MyService {
         return myRepositoryDB.getSuperheroes();
     }
 
-    //MyRepository myRepository;
-
-/*    public Superhero searchSuperhero(String name) {
-        return myRepository.searchSuperhero(name);
+    public Superhero searchSuperhero(String name) {
+        return myRepositoryDB.searchHeroByName(name);
     }
 
+    //MyRepository myRepository;
+
+/*
     public Superhero createSuperhero(String name, String superpower, boolean human, int introYear, double strengthPoint) {
         return myRepository.createSuperhero(name, superpower, human, introYear, strengthPoint);
     }

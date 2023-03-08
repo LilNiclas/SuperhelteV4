@@ -24,7 +24,7 @@ public class MyRepository_DB {
     public List<Superhero> getSuperheroes() {
         List<Superhero> superheroes = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
-            String SQL = "SELECT SUPERHERO_ID, HERO_NAME, REAL_NAME, CREATION_YEAR, SUPERPOWER_ID, CITY_ID FROM SUPERHEROES";
+            String SQL = "SELECT * FROM SUPERHEROES";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(SQL);
             while (rs.next()) {
@@ -32,12 +32,35 @@ public class MyRepository_DB {
                 String heroName = rs.getString("HERO_NAME");
                 String realName = rs.getString("REAL_NAME");
                 int creationYear = rs.getInt("CREATION_YEAR");
-                int superpowerID =rs.getInt("SUPERPOWER_ID");
+                int superpowerID = rs.getInt("SUPERPOWER_ID");
                 String cityID = rs.getString("CITY_ID");
 
                 superheroes.add(new Superhero(ID, heroName, realName, creationYear, superpowerID, cityID));
             }
             return superheroes;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Superhero searchHeroByName(String name) {
+        Superhero heroObj = null;
+        try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
+            String SQL = "SELECT * FROM SUPERHEROES WHERE HERO_NAME = ?";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int ID = rs.getInt("SUPERHERO_ID");
+                String heroName = rs.getString("HERO_NAME");
+                String realName = rs.getString("REAL_NAME");
+                int creationYear = rs.getInt("CREATION_YEAR");
+                int superpowerID = rs.getInt("SUPERPOWER_ID");
+                String cityID = rs.getString("CITY_ID");
+                heroObj = new Superhero(ID, heroName, realName, creationYear, superpowerID, cityID);
+            }
+            return heroObj;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
