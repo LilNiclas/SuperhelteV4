@@ -1,7 +1,6 @@
 package com.example.superheltev_4.service;
 
 import com.example.superheltev_4.model.Superhero;
-import com.example.superheltev_4.repository.MyRepository;
 import com.example.superheltev_4.repository.MyRepository_DB;
 import org.springframework.stereotype.Service;
 
@@ -10,25 +9,19 @@ import java.util.List;
 @Service
 public class MyService {
 
-    MyRepository myRepository;
-
     MyRepository_DB myRepositoryDB;
 
     public MyService(MyRepository_DB myRepositorydb) {
         this.myRepositoryDB = myRepositorydb;
     }
 
-
-
-
     public List<Superhero> getSuperheroes() {
         return myRepositoryDB.getSuperheroes();
     }
 
+    //MyRepository myRepository;
 
-
-
-    public Superhero searchSuperhero(String name) {
+/*    public Superhero searchSuperhero(String name) {
         return myRepository.searchSuperhero(name);
     }
 
@@ -43,6 +36,6 @@ public class MyService {
     public Superhero editSuperhero(Superhero superhero) {
         Superhero returnSuperhero = myRepository.editSuperhero(superhero);
         return returnSuperhero;
-    }
+    }*/
 
 }

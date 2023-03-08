@@ -13,18 +13,19 @@ import java.util.List;
 @RequestMapping(path = "kea")
 public class MyController {
 
-    MyService myService;
+    private MyService myService;
 
     public MyController(MyService myService) {
         this.myService = myService;
     }
 
-    @GetMapping(path = "superheroes")     //localhost:8080/kea/superheroes
+    @GetMapping(path = "superheroes")     //localhost:8082/kea/superheroes
     public ResponseEntity<List<Superhero>> getSuperheroes() {
-        List superheroesList = myService.getSuperheroes();
+        List<Superhero> superheroesList = myService.getSuperheroes();
         return new ResponseEntity<>(superheroesList, HttpStatus.OK);
     }
 
+/*
     @GetMapping(path = "superhero/{name}")      //localhost:8080/kea/superhero/{name}
     public ResponseEntity<Superhero> searchSuperhero(@PathVariable String name) {
         Superhero searchSuperhero = myService.searchSuperhero(name);
@@ -33,7 +34,7 @@ public class MyController {
 
     @PostMapping(path = "hero/create")      //localhost:8080/kea/hero/create
     public ResponseEntity<Superhero> createSuperhero(@RequestBody Superhero superhero) {
-        Superhero createSuperhero = myService.createSuperhero(superhero.getName(), superhero.getSuperpower(), superhero.isHuman(), superhero.getIntroYear(), superhero.getStrengthPoints());
+        Superhero createSuperhero = myService.createSuperhero(superhero.getName(), superhero.getSuperpower(), superhero.getIntroYear());
         return new ResponseEntity<>(createSuperhero, HttpStatus.OK);
     }
 
@@ -47,5 +48,5 @@ public class MyController {
     public ResponseEntity<Superhero> editSuperhero(@RequestBody Superhero superhero) {
         Superhero editSuperhero = myService.editSuperhero(superhero);
         return new ResponseEntity<>(editSuperhero, HttpStatus.OK);
-    }
+    }*/
 }
