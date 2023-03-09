@@ -1,5 +1,6 @@
 package com.example.superheltev_4.service;
 
+import com.example.superheltev_4.DTO.HeroCityDTO;
 import com.example.superheltev_4.DTO.HeroPowerDTO;
 import com.example.superheltev_4.model.Superhero;
 import com.example.superheltev_4.repository.MyRepository_DB;
@@ -27,6 +28,10 @@ public class MyService {
 
     public HeroPowerDTO heroPowerByName(String name) {
         return myRepositoryDB.heroPowerByName(name);
+    }
+
+    public List<HeroCityDTO> heroesByCity(String city) {
+        return myRepositoryDB.heroByCity(city);
     }
 
     //MyRepository myRepository;

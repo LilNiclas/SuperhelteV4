@@ -23,7 +23,7 @@ public class MyRepository_DB implements IRepository {
     @Value("${spring.datasource.password}")
     private String pwd;
 
-    //Returns all heroes
+    //Q1: Returns all heroes
     @Override
     public List<Superhero> getSuperheroes() {
         List<Superhero> superheroes = new ArrayList<>();
@@ -47,7 +47,7 @@ public class MyRepository_DB implements IRepository {
         }
     }
 
-    //Returns hero by search
+    //Q1: Returns hero by search
     @Override
     public Superhero searchHeroByName(String name) {
         Superhero heroObj = null;
@@ -72,6 +72,7 @@ public class MyRepository_DB implements IRepository {
         }
     }
 
+    //Q3: Return hero by name
     @Override
     public HeroPowerDTO heroPowerByName(String name) {
         HeroPowerDTO heroPowerObj = null;
@@ -93,19 +94,21 @@ public class MyRepository_DB implements IRepository {
         }
     }
 
+    //Q4: Return heroes by city
     @Override
     public List<HeroCityDTO> heroByCity(String city) {
         List<HeroCityDTO> heroCityDTOList = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
-            String SQL = "SELECT HERO_NAME, CITY FROM SUPERHEROES INNER JOIN CITY USING(CITY_ID) WHERE City = ?";
+            String SQL = "SELECT CITY_NAME, HERO_NAME FROM SUPERHEROES INNER JOIN CITY USING(CITY_ID) WHERE CITY_NAME = ? ORDER BY CITY_NAME;";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, city);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String heroName = rs.getString("HERO_NAME");
-                String cityName = rs.getString("CITY");
-                heroCityDTOList.add(new HeroCityDTO(heroName, cityName));
+                String heroNames = rs.getString("HERO_NAME");
+                String cityName = rs.getString("CITY_NAME");
+                HeroCityDTO hero = new HeroCityDTO(heroNames, cityName);
+                heroCityDTOList.add(hero);
             }
             return heroCityDTOList;
         } catch (SQLException e) {

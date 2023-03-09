@@ -1,9 +1,5 @@
 package com.example.superheltev_4.DTO;
 
-import com.example.superheltev_4.model.Superhero;
-
-import java.util.List;
-
 public class HeroPowerDTO {
 
     private String heroName;
