@@ -14,4 +14,24 @@ public class Superhero {
         this.creationYear = creationYear;
         this.cityID = cityID;
     }
+
+    public int getHeroID() {
+        return heroID;
+    }
+
+    public String getHeroName() {
+        return heroName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public int getCreationYear() {
+        return creationYear;
+    }
+
+    public String getCityID() {
+        return cityID;
+    }
 }
