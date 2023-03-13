@@ -6,7 +6,6 @@ import com.example.superheltev_4.DTO.HeroPowerDTO;
 import com.example.superheltev_4.model.Superhero;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import org.yaml.snakeyaml.events.Event;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -76,7 +75,7 @@ public class MyRepository_DB implements IRepository {
     public CountPowerDTO countPowersByName(String name) {
         CountPowerDTO countPowerObj = null;
         try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
-            String SQL = "SELECT HERO_NAME, REAL_NAME, COUNT(SUPERHEROPOWER.SUPERPOWER_ID) AS POWER_COUNT FROM SUPERHEROES" +
+            String SQL = "SELECT HERO_NAME, REAL_NAME, COUNT(SUPERPOWER_ID) AS POWER_COUNT FROM SUPERHEROES" +
                     " INNER JOIN SUPERHEROPOWER USING(SUPERHERO_ID) WHERE HERO_NAME = ? GROUP BY HERO_NAME, REAL_NAME;";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, name);
@@ -102,8 +101,8 @@ public class MyRepository_DB implements IRepository {
     public HeroPowerDTO heroPowerByName(String name) {
         HeroPowerDTO heroPowerObj = null;
         try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
-            String SQL = "SELECT HERO_NAME, REAL_NAME, GROUP_CONCAT(SUPERPOWER SEPARATOR ', ') AS SUPERPOWERS FROM SUPERHEROES  inner join SUPERHEROPOWER using (superhero_id)\n" +
-                    "inner join superpower using (SUPERPOWER_ID) WHERE HERO_NAME = ? GROUP BY HERO_NAME, REAL_NAME;";
+            String SQL = "SELECT HERO_NAME, REAL_NAME, GROUP_CONCAT(SUPERPOWER SEPARATOR ', ') AS SUPERPOWERS FROM SUPERHEROES INNER JOIN SUPERHEROPOWER USING (SUERHERO_ID)\n" +
+                    "INNER JOIN SUPERPOWER USING (SUPERPOWER_ID) WHERE HERO_NAME = ? GROUP BY HERO_NAME, REAL_NAME;";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
