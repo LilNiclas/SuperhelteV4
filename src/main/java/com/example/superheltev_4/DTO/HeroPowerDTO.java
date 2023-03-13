@@ -11,17 +11,4 @@ public class HeroPowerDTO {
         this.realName = realName;
         this.superpowers = superpowers;
     }
-
-    public String getHeroName() {
-        return heroName;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public String getSuperpowers() {
-        return superpowers;
-    }
-
 }

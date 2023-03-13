@@ -1,5 +1,6 @@
 package com.example.superheltev_4.repository;
 
+import com.example.superheltev_4.DTO.CountPowerDTO;
 import com.example.superheltev_4.DTO.HeroCityDTO;
 import com.example.superheltev_4.DTO.HeroPowerDTO;
 import com.example.superheltev_4.model.Superhero;
@@ -36,10 +37,9 @@ public class MyRepository_DB implements IRepository {
                 String heroName = rs.getString("HERO_NAME");
                 String realName = rs.getString("REAL_NAME");
                 int creationYear = rs.getInt("CREATION_YEAR");
-                int superpowerID = rs.getInt("SUPERPOWER_ID");
                 String cityID = rs.getString("CITY_ID");
 
-                superheroes.add(new Superhero(ID, heroName, realName, creationYear, superpowerID, cityID));
+                superheroes.add(new Superhero(ID, heroName, realName, creationYear, cityID));
             }
             return superheroes;
         } catch (SQLException e) {
@@ -62,9 +62,8 @@ public class MyRepository_DB implements IRepository {
                 String heroName = rs.getString("HERO_NAME");
                 String realName = rs.getString("REAL_NAME");
                 int creationYear = rs.getInt("CREATION_YEAR");
-                int superpowerID = rs.getInt("SUPERPOWER_ID");
                 String cityID = rs.getString("CITY_ID");
-                heroObj = new Superhero(ID, heroName, realName, creationYear, superpowerID, cityID);
+                heroObj = new Superhero(ID, heroName, realName, creationYear, cityID);
             }
             return heroObj;
         } catch (SQLException e) {
@@ -72,12 +71,39 @@ public class MyRepository_DB implements IRepository {
         }
     }
 
-    //Q3: Return hero by name
+    //Returns hero and power count by name
+    @Override
+    public CountPowerDTO countPowersByName(String name) {
+        CountPowerDTO countPowerObj = null;
+        try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
+            String SQL = "SELECT HERO_NAME, REAL_NAME, COUNT(SUPERHEROPOWER.SUPERPOWER_ID) AS POWER_COUNT FROM SUPERHEROES" +
+                    " INNER JOIN SUPERHEROPOWER USING(SUPERHERO_ID) WHERE HERO_NAME = ? GROUP BY HERO_NAME, REAL_NAME;";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String heroName = rs.getString("HERO_NAME");
+                String realName = rs.getString("REAL_NAME");
+                int powerCount = rs.getInt("POWER_COUNT");
+                countPowerObj = new CountPowerDTO(heroName, realName, powerCount);
+
+            }
+
+            return countPowerObj;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //Q3: Return hero and powers by name
     @Override
     public HeroPowerDTO heroPowerByName(String name) {
         HeroPowerDTO heroPowerObj = null;
         try (Connection con = DriverManager.getConnection(db_url, uid, pwd)) {
-            String SQL = "SELECT HERO_NAME, REAL_NAME, SUPERPOWER FROM SUPERHEROES INNER JOIN SUPERPOWER USING(SUPERPOWER_ID) WHERE HERO_NAME = ?";
+            String SQL = "SELECT HERO_NAME, REAL_NAME, GROUP_CONCAT(SUPERPOWER SEPARATOR ', ') AS SUPERPOWERS FROM SUPERHEROES  inner join SUPERHEROPOWER using (superhero_id)\n" +
+                    "inner join superpower using (SUPERPOWER_ID) WHERE HERO_NAME = ? GROUP BY HERO_NAME, REAL_NAME;";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
@@ -85,7 +111,7 @@ public class MyRepository_DB implements IRepository {
             if (rs.next()) {
                 String heroName = rs.getString("HERO_NAME");
                 String realName = rs.getString("REAL_NAME");
-                String superpower = rs.getString("SUPERPOWER");
+                String superpower = rs.getString("SUPERPOWERS");
                 heroPowerObj = new HeroPowerDTO(heroName, realName, superpower);
             }
             return heroPowerObj;

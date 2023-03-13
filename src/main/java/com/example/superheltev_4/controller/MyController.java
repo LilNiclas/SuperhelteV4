@@ -1,5 +1,6 @@
 package com.example.superheltev_4.controller;
 
+import com.example.superheltev_4.DTO.CountPowerDTO;
 import com.example.superheltev_4.DTO.HeroCityDTO;
 import com.example.superheltev_4.DTO.HeroPowerDTO;
 import com.example.superheltev_4.model.Superhero;
@@ -34,9 +35,18 @@ public class MyController {
         return new ResponseEntity<>(superheroByName, HttpStatus.OK);
     }
 
+
+    //Q2
+    @GetMapping(path = "superpower/count/{name}")
+    public ResponseEntity<CountPowerDTO> countPowers(@PathVariable String name) {
+        CountPowerDTO countPower = myService.countPowersByName(name);
+        return new ResponseEntity<>(countPower, HttpStatus.OK);
+    }
+
+
     //Q3
     @GetMapping(path = "superpower/{name}")     //localhost:8082/kea/superpower/{name}
-    public ResponseEntity<HeroPowerDTO> powerByName (@PathVariable String name) {
+    public ResponseEntity<HeroPowerDTO> powerByName(@PathVariable String name) {
         HeroPowerDTO powerByName = myService.heroPowerByName(name);
         return new ResponseEntity<>(powerByName, HttpStatus.OK);
     }
@@ -44,27 +54,8 @@ public class MyController {
 
     //Q4
     @GetMapping(path = "city/{city}")     //localhost:8082/kea/city/{city}
-    public ResponseEntity <List<HeroCityDTO>> heroByCity (@PathVariable String city) {
+    public ResponseEntity<List<HeroCityDTO>> heroByCity(@PathVariable String city) {
         List<HeroCityDTO> heroByCityList = myService.heroesByCity(city);
         return new ResponseEntity<>(heroByCityList, HttpStatus.OK);
     }
-
-/*
-    @PostMapping(path = "hero/create")      //localhost:8080/kea/hero/create
-    public ResponseEntity<Superhero> createSuperhero(@RequestBody Superhero superhero) {
-        Superhero createSuperhero = myService.createSuperhero(superhero.getName(), superhero.getSuperpower(), superhero.getIntroYear());
-        return new ResponseEntity<>(createSuperhero, HttpStatus.OK);
-    }
-
-    @DeleteMapping(path = "hero/delete/{name}")     //localhost:8080/kea/hero/delete/{name}
-    public ResponseEntity<Superhero> deleteSuperhero(@PathVariable String name) {
-        Superhero deleteSuperhero = myService.deleteSuperhero(name);
-        return new ResponseEntity<>(deleteSuperhero, HttpStatus.OK);
-    }
-
-    @PutMapping(path = "hero/edit")     //localhost:8080/kea/hero/edit
-    public ResponseEntity<Superhero> editSuperhero(@RequestBody Superhero superhero) {
-        Superhero editSuperhero = myService.editSuperhero(superhero);
-        return new ResponseEntity<>(editSuperhero, HttpStatus.OK);
-    }*/
 }

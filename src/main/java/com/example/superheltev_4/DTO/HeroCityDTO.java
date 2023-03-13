@@ -9,12 +9,4 @@ public class HeroCityDTO {
         this.realName = realName;
         this.city = city;
     }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public String getCity() {
-        return city;
-    }
 }

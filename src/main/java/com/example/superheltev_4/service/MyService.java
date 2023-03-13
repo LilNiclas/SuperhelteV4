@@ -1,5 +1,6 @@
 package com.example.superheltev_4.service;
 
+import com.example.superheltev_4.DTO.CountPowerDTO;
 import com.example.superheltev_4.DTO.HeroCityDTO;
 import com.example.superheltev_4.DTO.HeroPowerDTO;
 import com.example.superheltev_4.model.Superhero;
@@ -17,7 +18,7 @@ public class MyService {
         this.myRepositoryDB = myRepositorydb;
     }
 
-
+    //Q1
     public List<Superhero> getSuperheroes() {
         return myRepositoryDB.getSuperheroes();
     }
@@ -26,28 +27,18 @@ public class MyService {
         return myRepositoryDB.searchHeroByName(name);
     }
 
+    //Q2
+    public CountPowerDTO countPowersByName(String name) {
+        return myRepositoryDB.countPowersByName(name);
+    }
+
+    //Q3
     public HeroPowerDTO heroPowerByName(String name) {
         return myRepositoryDB.heroPowerByName(name);
     }
 
+    //Q4
     public List<HeroCityDTO> heroesByCity(String city) {
         return myRepositoryDB.heroByCity(city);
     }
-
-    //MyRepository myRepository;
-
-/*
-    public Superhero createSuperhero(String name, String superpower, boolean human, int introYear, double strengthPoint) {
-        return myRepository.createSuperhero(name, superpower, human, introYear, strengthPoint);
-    }
-
-    public Superhero deleteSuperhero(String name) {
-        return myRepository.deleteSuperhero(name);
-    }
-
-    public Superhero editSuperhero(Superhero superhero) {
-        Superhero returnSuperhero = myRepository.editSuperhero(superhero);
-        return returnSuperhero;
-    }*/
-
 }
